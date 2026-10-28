@@ -11,6 +11,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #000;
   color: #fff;
@@ -32,34 +36,24 @@ nav {
   font-size: 22px;
   font-weight: 700;
   letter-spacing: 1px;
+  color: #fff;
+  text-decoration: none;
 }
 
 .nav-menu {
   display: flex;
-  gap: 48px;
+  gap: 40px;
   font-size: 15px;
 }
 
 .nav-menu a {
   color: #94a3b8;
   text-decoration: none;
-  position: relative;
   transition: color 0.2s;
 }
 
-.nav-menu a:hover,
-.nav-menu a.active {
+.nav-menu a:hover {
   color: #fff;
-}
-
-.nav-menu a.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 100%;
-  height: 2px;
-  background: #3b82f6;
 }
 
 /* 主视觉 */
@@ -80,6 +74,24 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+}
+
+.orbit-back {
+  z-index: 1;
+}
+
+.orbit-front {
+  z-index: 3;
+}
+
+.back-star {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.front-star {
+  transition: opacity 0.3s linear;
 }
 
 .orbit-svg {
@@ -89,8 +101,13 @@ nav {
 
 .orbit-line {
   fill: none;
-  stroke: rgba(255,255,255,0.35);
+  stroke: rgba(255,255,255,0.09);
   stroke-width: 1px;
+}
+
+.orbit-deco {
+  stroke: rgba(255,255,255,0.5);
+  stroke-width: 2;
 }
 
 /* 小行星 */
@@ -108,6 +125,8 @@ nav {
   fill: #8b5cf6;
   filter: drop-shadow(0 0 10px #8b5cf6) drop-shadow(0 0 20px #8b5cf6);
 }
+
+/* 小行星沿椭圆轨道公转（SMIL animateMotion 驱动，无需额外 CSS） */
 
 /* 中心文字 */
 .hero-text {
@@ -160,17 +179,16 @@ nav {
   cursor: pointer;
   color: #9ca3af;
   transition: color 0.2s;
+  text-decoration: none;
+  display: block;
 }
 
 .tab-item:hover {
   color: #fff;
 }
 
-.tab-item.active {
-  color: #fff;
-}
-
-.tab-item.active::after {
+/* 四个 tab 常驻渐变横杆 */
+.tab-item::after {
   content: "";
   position: absolute;
   left: 30%;
@@ -181,20 +199,12 @@ nav {
   border-radius: 2px;
 }
 
-.btn-cooperate {
-  padding: 14px 32px;
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 999px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #fff;
-  transition: 0.2s;
+.tab-item:hover::after {
+  filter: brightness(1.4);
 }
 
-.btn-cooperate:hover {
-  border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.12);
-  box-shadow: 0 0 18px rgba(59, 130, 246, 0.35);
+.btn-cooperate {
+  display: none;
 }
 
 /* 内容区 */
@@ -240,12 +250,6 @@ nav {
     flex: 1 1 50%;
   }
 
-  .btn-cooperate {
-    width: 100%;
-    margin-top: 12px;
-    text-align: center;
-  }
-
   nav {
     padding: 16px 24px;
   }
@@ -282,37 +286,68 @@ nav {
 </head>
 <body>
   <nav>
-    <div class="nav-logo">BN</div>
+    <a href="#" class="nav-logo">BN</a>
     <div class="nav-menu">
-      <a href="#about">关于我</a>
-      <a href="#projects">作品项目</a>
-      <a href="#skills">技能清单</a>
-      <a href="#resume">简历</a>
-      <a href="#contact">联系我</a>
+      <a href="#skills">算法技术</a>
+      <a href="#projects">视觉系统</a>
+      <a href="#about">个人爱好</a>
+      <a href="#contact">勾搭一下</a>
     </div>
   </nav>
 
   <section class="hero">
-    <div class="orbit-wrap">
+    <div class="orbit-wrap orbit-back">
       <svg class="orbit-svg" viewBox="0 0 620 340">
         <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
+          <path id="orbit1" d="M 310,95 A 210,75 0 1,1 309.99,95 Z" fill="none" />
+          <path id="orbit2" d="M 310,60 A 260,110 0 1,1 309.99,60 Z" fill="none" />
+          <path id="orbit3" d="M 310,75 A 175,95 0 1,1 309.99,75 Z" fill="none" />
         </defs>
 
-        <!-- 倾斜椭圆轨道 -->
-        <ellipse class="orbit-line" cx="310" cy="170" rx="280" ry="130" transform="rotate(-25 310 170)" />
+        <!-- 装饰用大椭圆线 -->
+        <ellipse class="orbit-line orbit-deco" cx="310" cy="170" rx="280" ry="130" transform="rotate(-25 310 170)" />
 
-        <!-- 小行星轨道动画容器 -->
-        <g class="asteroids" transform-origin="310 170">
-          <circle class="dot-small" cx="100" cy="260" r="8" />
-          <circle class="dot" cx="420" cy="240" r="10" />
-          <circle class="dot-large" cx="530" cy="80" r="12" />
+        <!-- 三条小轨道线 -->
+        <g transform="rotate(-15 310 170)">
+          <use href="#orbit1" class="orbit-line" />
+        </g>
+        <g transform="rotate(30 310 170)">
+          <use href="#orbit2" class="orbit-line" />
+        </g>
+        <g transform="rotate(55 310 170)">
+          <use href="#orbit3" class="orbit-line" />
+        </g>
+
+        <!-- 背面的三颗星（JS 同步位置，绕到字后面时显示） -->
+        <circle class="dot-small back-star" r="8" />
+        <circle class="dot back-star" r="10" />
+        <circle class="dot-large back-star" r="12" />
+      </svg>
+    </div>
+
+    <div class="orbit-wrap orbit-front">
+      <svg class="orbit-svg" viewBox="0 0 620 340">
+        <!-- 三颗星动画源 -->
+        <g transform="rotate(-15 310 170)">
+          <circle class="dot-small front-star" r="8">
+            <animateMotion dur="12s" repeatCount="indefinite">
+              <mpath href="#orbit1" />
+            </animateMotion>
+          </circle>
+        </g>
+        <g transform="rotate(30 310 170)">
+          <circle class="dot front-star" r="10">
+            <animateMotion dur="19s" begin="-6s" repeatCount="indefinite">
+              <mpath href="#orbit2" />
+            </animateMotion>
+          </circle>
+        </g>
+        <g transform="rotate(55 310 170)">
+          <circle class="dot-large front-star" r="12">
+            <animateMotion dur="26s" begin="-14s" repeatCount="indefinite">
+              <mpath href="#orbit3" />
+            </animateMotion>
+          </circle>
         </g>
       </svg>
     </div>
@@ -324,28 +359,63 @@ nav {
     </div>
 
     <div class="bottom-tab-bar">
-      <div class="tab-item">品牌识别</div>
-      <div class="tab-item active">视觉系统</div>
-      <div class="tab-item active">内容策划</div>
-      <div class="tab-item">数字产品</div>
-      <div class="btn-cooperate">开始合作</div>
+      <a href="#skills" class="tab-item">算法技术</a>
+      <a href="#projects" class="tab-item">视觉系统</a>
+      <a href="#about" class="tab-item">个人爱好</a>
+      <a href="#contact" class="tab-item">勾搭一下</a>
     </div>
   </section>
 
-  <section id="about" class="section">
-    <h2>关于我</h2>
-    <p>我是 BN，也叫 Beef Noodles。这是一个个人综合展示网站，同时也可以作为线上简历使用。我主要关注人工智能、摩托骑行、视频创作和视觉设计。</p>
+  <section id="skills" class="section">
+    <h2>算法技术</h2>
+    <p>熟悉人工智能基础应用、Python 全栈、数据结构与算法、计算机视觉基础，正在持续深入学习与实战中。</p>
   </section>
 
   <section id="projects" class="section">
-    <h2>作品项目</h2>
-    <p>这里展示 AI 项目、骑行记录、视频作品、海报设计和网页设计等内容。</p>
+    <h2>视觉系统</h2>
+    <p>这里展示海报设计、网页视觉、品牌排版与剪辑调色等设计类作品。</p>
   </section>
 
-  <section id="skills" class="section">
-    <h2>技能清单</h2>
-    <p>熟悉人工智能基础应用、视频拍摄剪辑、视觉设计、网页基础开发与内容整理。</p>
+  <section id="about" class="section">
+    <h2>个人爱好</h2>
+    <p>我是 BN，也叫 Beef Noodles。骑 KTM 杜克 390，玩台球，剪 vlog，捣鼓各种小数码。这个站本身就是我的线上简历。</p>
   </section>
 
-  <section id="resume" class="section">
-    <h2>
+  <section id="contact" class="section">
+    <h2>联系我</h2>
+    <p>欢迎通过邮件或社交平台找我，聊 AI、骑行、视频、设计，或者单纯约着打个球。</p>
+  </section>
+
+<script>
+(function () {
+  var frontStars = document.querySelectorAll('.front-star');
+  var backStars = document.querySelectorAll('.back-star');
+  var CENTER_Y = 170;
+
+  function tick() {
+    frontStars.forEach(function (fs, i) {
+      var bs = backStars[i];
+      if (!bs) return;
+      var ctm = fs.getCTM();
+      if (!ctm) return;
+
+      // 同步背面星的位置
+      bs.setAttribute('transform', 'translate(' + ctm.e + ',' + ctm.f + ')');
+
+      // y < CENTER_Y → 在椭圆上半圈（远处）→ 藏到字后面
+      // y >= CENTER_Y → 在椭圆下半圈（近处）→ 跑到字前面
+      if (ctm.f < CENTER_Y) {
+        fs.style.opacity = 0;
+        bs.style.opacity = 1;
+      } else {
+        fs.style.opacity = 1;
+        bs.style.opacity = 0;
+      }
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
