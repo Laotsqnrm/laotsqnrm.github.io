@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BN · Beef Noodles</title>
+<title>ZJF · Beef Noodles</title>
 <style>
 * {
   margin: 0;
@@ -21,6 +21,34 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* 星空背景 */
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.star.twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
 }
 
 /* 顶部导航 */
@@ -30,6 +58,8 @@ nav {
   align-items: center;
   padding: 24px 48px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  z-index: 1;
 }
 
 .nav-logo {
@@ -64,6 +94,7 @@ nav {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  z-index: 1;
 }
 
 /* 椭圆轨道容器 */
@@ -187,7 +218,7 @@ nav {
   color: #fff;
 }
 
-/* 四个 tab 常驻渐变横杆 */
+/* 四个 tab 常驻渐变横杆，各配不同颜色 */
 .tab-item::after {
   content: "";
   position: absolute;
@@ -195,8 +226,20 @@ nav {
   bottom: 8px;
   width: 40%;
   height: 3px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   border-radius: 2px;
+}
+
+.tab-item:nth-child(1)::after {
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+}
+.tab-item:nth-child(2)::after {
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+}
+.tab-item:nth-child(3)::after {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+.tab-item:nth-child(4)::after {
+  background: linear-gradient(90deg, #06b6d4, #22c55e);
 }
 
 .tab-item:hover::after {
@@ -212,19 +255,320 @@ nav {
   padding: 100px 48px;
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .section h2 {
   font-size: 28px;
   margin-bottom: 24px;
-  border-left: 4px solid #8b5cf6;
-  padding-left: 12px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.section h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 4px;
+  border-radius: 2px;
+}
+
+#skills h2::before {
+  background: linear-gradient(180deg, #ec4899, #8b5cf6);
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.6), 0 0 16px rgba(139, 92, 246, 0.4);
+}
+#projects h2::before {
+  background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.6), 0 0 16px rgba(59, 130, 246, 0.4);
+}
+#about h2::before {
+  background: linear-gradient(180deg, #3b82f6, #06b6d4);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6), 0 0 16px rgba(6, 182, 212, 0.4);
+}
+#contact h2::before {
+  background: linear-gradient(180deg, #06b6d4, #22c55e);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.6), 0 0 16px rgba(34, 197, 94, 0.4);
+}
+
+/* 技术标签 */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tag {
+  padding: 6px 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-size: 14px;
+  color: #cbd5e1;
+  background: rgba(255,255,255,0.04);
+  transition: 0.2s;
+}
+
+.tag:hover {
+  border-color: #8b5cf6;
+  color: #fff;
+  background: rgba(139,92,246,0.1);
+}
+
+/* 比赛列表 */
+.compete-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.compete-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  font-size: 15px;
+  color: #9ca3af;
+}
+
+.compete-item .dot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.compete-item strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 作品卡片 */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.work-card {
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  transition: 0.25s;
+  overflow: hidden;
+  position: relative;
+}
+
+.work-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.work-card .work-label {
+  position: relative;
+  z-index: 1;
+  background: rgba(0,0,0,0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+/* 爱好卡片 */
+.hobby-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.hobby-card {
+  padding: 24px 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  transition: 0.25s;
+}
+
+.hobby-card:hover {
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.05);
+}
+
+.hobby-card .hobby-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.hobby-card h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.hobby-card p {
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+
+/* 联系按钮 */
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.contact-btn {
+  padding: 12px 28px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-size: 15px;
+  color: #cbd5e1;
+  text-decoration: none;
+  background: rgba(255,255,255,0.04);
+  transition: 0.2s;
+}
+
+.contact-btn:hover {
+  border-color: #06b6d4;
+  color: #fff;
+  background: rgba(6,182,212,0.1);
+  box-shadow: 0 0 16px rgba(6,182,212,0.25);
+}
+
+/* 弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-box {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 36px 32px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: #9ca3af;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.modal-close:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.modal-content {
+  color: #9ca3af;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.modal-content p {
+  margin-bottom: 8px;
+}
+
+.modal-content video {
+  display: block;
 }
 
 .section p {
   color: #9ca3af;
   line-height: 1.9;
   font-size: 16px;
+}
+
+/* 滚动渐显 */
+.section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 作品卡片 hover 箭头 */
+.work-card::after {
+  content: "→";
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: 0.25s;
+}
+
+.work-card:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 底部 footer */
+.footer {
+  text-align: center;
+  padding: 40px 24px 60px;
+  color: #4b5563;
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
 }
 
 /* 适配 */
@@ -261,6 +605,10 @@ nav {
 }
 
 @media (max-width: 640px) {
+  .hero {
+    min-height: calc(100vh - 90px);
+  }
+
   .hero-text h1 {
     font-size: 72px;
   }
@@ -274,22 +622,43 @@ nav {
     height: 180px;
   }
 
+  .bottom-tab-bar {
+    bottom: 40px;
+    width: calc(100% - 32px);
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+
+  .tab-item {
+    flex: 1 1 50%;
+    font-size: 14px;
+    padding: 14px 0;
+  }
+
   .nav-menu {
-    display: none;
+    gap: 16px;
+    font-size: 12px;
   }
 
   .section {
     padding: 60px 24px;
   }
+
+  .work-grid,
+  .hobby-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 <body>
+  <div class="stars" id="stars"></div>
+
   <nav>
     <a href="#" class="nav-logo">BN</a>
     <div class="nav-menu">
       <a href="#skills">算法技术</a>
-      <a href="#projects">视觉系统</a>
+      <a href="#projects">AI 项目</a>
       <a href="#about">个人爱好</a>
       <a href="#contact">勾搭一下</a>
     </div>
@@ -327,40 +696,22 @@ nav {
 
     <div class="orbit-wrap orbit-front">
       <svg class="orbit-svg" viewBox="0 0 620 340">
-        <!-- 三颗星动画源 -->
-        <g transform="rotate(-15 310 170)">
-          <circle class="dot-small front-star" r="8">
-            <animateMotion dur="12s" repeatCount="indefinite">
-              <mpath href="#orbit1" />
-            </animateMotion>
-          </circle>
-        </g>
-        <g transform="rotate(30 310 170)">
-          <circle class="dot front-star" r="10">
-            <animateMotion dur="19s" begin="-6s" repeatCount="indefinite">
-              <mpath href="#orbit2" />
-            </animateMotion>
-          </circle>
-        </g>
-        <g transform="rotate(55 310 170)">
-          <circle class="dot-large front-star" r="12">
-            <animateMotion dur="26s" begin="-14s" repeatCount="indefinite">
-              <mpath href="#orbit3" />
-            </animateMotion>
-          </circle>
-        </g>
+        <!-- 三颗星动画由 JS 驱动（兼容 iOS Safari） -->
+        <circle class="dot-small front-star" r="8" />
+        <circle class="dot front-star" r="10" />
+        <circle class="dot-large front-star" r="12" />
       </svg>
     </div>
 
     <div class="hero-text">
       <h1>BN</h1>
       <p class="en">Beef Noodles</p>
-      <p class="tags">AI · Moto · Video · Design</p>
+      <p class="tags">AI · Moto · Video</p>
     </div>
 
     <div class="bottom-tab-bar">
       <a href="#skills" class="tab-item">算法技术</a>
-      <a href="#projects" class="tab-item">视觉系统</a>
+      <a href="#projects" class="tab-item">AI 项目</a>
       <a href="#about" class="tab-item">个人爱好</a>
       <a href="#contact" class="tab-item">勾搭一下</a>
     </div>
@@ -368,43 +719,163 @@ nav {
 
   <section id="skills" class="section">
     <h2>算法技术</h2>
-    <p>熟悉人工智能基础应用、Python 全栈、数据结构与算法、计算机视觉基础，正在持续深入学习与实战中。</p>
+    <p>AI 专业在读，主攻 Python 全栈与计算机视觉，正在打比赛和啃软考。</p>
+    <div class="tag-cloud">
+      <span class="tag">Python</span>
+      <span class="tag">OpenCV</span>
+      <span class="tag">MongoDB</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">LangChain</span>
+      <span class="tag">Linux</span>
+      <span class="tag">数据结构与算法</span>
+    </div>
+    <div class="compete-list">
+      <div class="compete-item">
+        <span class="dot-dot" style="background:#ec4899"></span>
+        <span> <strong>人工智能专业大二</strong>·学业排名 7/276</span>
+      </div>
+      <div class="compete-item">
+        <span class="dot-dot" style="background:#8b5cf6"></span>
+        <span><strong>华为创新赛</strong> · 进行中</span>
+      </div>
+      <div class="compete-item">
+        <span class="dot-dot" style="background:#3b82f6"></span>
+        <span><strong>软考中级（工程师）</strong> · 备考中</span>
+      </div>
+      <div class="compete-item">
+        <span class="dot-dot" style="background:#06b6d4"></span>
+        <span><strong>省技能大赛</strong>· 区块链方向，备赛中</span>
+      </div>
+    </div>
   </section>
 
   <section id="projects" class="section">
-    <h2>视觉系统</h2>
-    <p>这里展示海报设计、网页视觉、品牌排版与剪辑调色等设计类作品。</p>
+    <h2>AI 项目</h2>
+    <p>课上学的 + 自己折腾的，从 OpenCV 到小工具到合约，都在这。</p>
+    <div class="work-grid">
+      <div class="work-card" style="background: linear-gradient(135deg, #1e1b4b, #312e81);">
+        <span class="work-label">OpenCV 视觉检测</span>
+      </div>
+      <div class="work-card" style="background: linear-gradient(135deg, #0c4a6e, #164e63);">
+        <span class="work-label">MongoDB 数据处理</span>
+      </div>
+      <div class="work-card" style="background: linear-gradient(135deg, #064e3b, #065f46);">
+        <span class="work-label">Solidity 智能合约</span>
+      </div>
+      <div class="work-card" style="background: linear-gradient(135deg, #7c2d12, #9a3412);">
+        <span class="work-label">Tkinter 桌面工具</span>
+      </div>
+      <div class="work-card" style="background: linear-gradient(135deg, #581c87, #6b21a8);">
+        <span class="work-label">FastAPI 后端接口</span>
+      </div>
+      <div class="work-card" style="background: linear-gradient(135deg, #1f2937, #374151);">
+        <span class="work-label">更多 →</span>
+      </div>
+    </div>
   </section>
 
   <section id="about" class="section">
     <h2>个人爱好</h2>
-    <p>我是 BN，也叫 Beef Noodles。骑 KTM 杜克 390，玩台球，剪 vlog，捣鼓各种小数码。这个站本身就是我的线上简历。</p>
+    <p>我是 ZJF，也叫 Beef Noodles。生活不只有代码。</p>
+    <div class="hobby-grid">
+      <div class="hobby-card">
+        <div class="hobby-icon">🏍️</div>
+        <h3>摩托骑行</h3>
+        <p>KTM duke 390,自己调刹车、换胎、搞保养，跑山是日常。</p>
+      </div>
+      <div class="hobby-card">
+        <div class="hobby-icon">🎱</div>
+        <h3>台球</h3>
+        <p>没事就刷两杆，研究巧克粉和杆法，属于是嘴上说练球身体很诚实。</p>
+      </div>
+      <div class="hobby-card" data-modal="video" style="cursor:pointer;">
+        <div class="hobby-icon">🎬</div>
+        <h3>视频创作</h3>
+        <p>GoPro 拍骑行素材，发抖音记录日常，剪映 + Lightroom 后期。点我看看 →</p>
+      </div>
+    </div>
   </section>
 
   <section id="contact" class="section">
     <h2>联系我</h2>
-    <p>欢迎通过邮件或社交平台找我，聊 AI、骑行、视频、设计，或者单纯约着打个球。</p>
+    <p>聊技术、聊骑行、聊视频，或者单纯约着打个球。</p>
+    <div class="contact-row">
+      <a href="#" class="contact-btn" data-modal="douyin">🎵 抖音</a>
+      <a href="#" class="contact-btn" data-modal="wechat">💬 微信</a>
+      <a href="#" class="contact-btn" data-modal="email">📧 邮箱</a>
+      <a href="#" class="contact-btn" data-modal="phone">📱 手机</a>
+    </div>
   </section>
+
+  <!-- 弹窗 -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2026 BN · Beef Noodles · Made with ♥
+  </div>
 
 <script>
 (function () {
+  // 生成星空，根据页面高度撒星星
+  var starsContainer = document.getElementById('stars');
+  var pageHeight = document.body.scrollHeight || window.innerHeight;
+  var starCount = Math.round(pageHeight / 15);
+  for (var i = 0; i < starCount; i++) {
+    var s = document.createElement('div');
+    s.className = 'star' + (Math.random() > 0.6 ? ' twinkle' : '');
+    var size = Math.random() * 2 + 1;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.opacity = (Math.random() * 0.5 + 0.2).toFixed(2);
+    if (s.classList.contains('twinkle')) {
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    }
+    starsContainer.appendChild(s);
+  }
+
   var frontStars = document.querySelectorAll('.front-star');
   var backStars = document.querySelectorAll('.back-star');
-  var CENTER_Y = 170;
+  var CX = 310, CY = 170;
+
+  // 三颗星轨道参数（椭圆参数方程）
+  var orbits = [
+    { rx: 210, ry: 75, angle: -15 * Math.PI / 180, dur: 12, phase: 0 },
+    { rx: 260, ry: 110, angle: 30 * Math.PI / 180, dur: 19, phase: -6 },
+    { rx: 175, ry: 95, angle: 55 * Math.PI / 180, dur: 26, phase: -14 }
+  ];
+
+  var startTime = performance.now();
 
   function tick() {
+    var elapsed = (performance.now() - startTime) / 1000;
+
     frontStars.forEach(function (fs, i) {
       var bs = backStars[i];
       if (!bs) return;
-      var ctm = fs.getCTM();
-      if (!ctm) return;
+      var o = orbits[i];
 
-      // 同步背面星的位置
-      bs.setAttribute('transform', 'translate(' + ctm.e + ',' + ctm.f + ')');
+      // 椭圆参数方程（旋转后的）
+      var t = ((elapsed + o.phase) / o.dur) * 2 * Math.PI;
+      var cosT = Math.cos(t), sinT = Math.sin(t);
+      var x = CX + o.rx * cosT * Math.cos(o.angle) - o.ry * sinT * Math.sin(o.angle);
+      var y = CY + o.rx * cosT * Math.sin(o.angle) + o.ry * sinT * Math.cos(o.angle);
 
-      // y < CENTER_Y → 在椭圆上半圈（远处）→ 藏到字后面
-      // y >= CENTER_Y → 在椭圆下半圈（近处）→ 跑到字前面
-      if (ctm.f < CENTER_Y) {
+      // 设置前层星位置
+      fs.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+      // 同步后层星位置
+      if (bs) bs.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+
+      // y < CY → 上半圈（远处）→ 藏到字后面
+      if (y < CY) {
         fs.style.opacity = 0;
         bs.style.opacity = 1;
       } else {
@@ -415,6 +886,72 @@ nav {
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
+
+  // 滚动渐显
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.section').forEach(function (s) {
+    observer.observe(s);
+  });
+
+  // 弹窗逻辑
+  var modalData = {
+    douyin: {
+      title: '🎵 抖音',
+      content: '<p>抖音号：Laotsqnrm</p>'
+    },
+    wechat: {
+      title: '💬 微信',
+      content: '<p>微信号：zjf2428184126</p>'
+    },
+    email: {
+      title: '📧 邮箱',
+      content: '<p>邮箱号：2428184126@qq.com</p>'
+    },
+    phone: {
+      title: '📱 手机',
+      content: '<p>手机号：18675811081</p>'
+    },
+    video: {
+      title: '🎬 视频创作',
+      content: '<p>骑行视频、抖音日常，持续更新中。</p><p>关注抖音看最新作品 →</p>'
+    }
+  };
+
+  var modal = document.getElementById('modal');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalContent = document.getElementById('modalContent');
+  var modalClose = document.getElementById('modalClose');
+
+  document.querySelectorAll('[data-modal]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var key = btn.getAttribute('data-modal');
+      var data = modalData[key];
+      if (!data) return;
+      modalTitle.textContent = data.title;
+      modalContent.innerHTML = data.content;
+      modal.classList.add('show');
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('show');
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
 })();
 </script>
 </body>
